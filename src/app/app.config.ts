@@ -2,10 +2,22 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
+import { provideEffects } from '@ngrx/effects';
+import { UserEffects } from './users/user.effects';
+import { provideState, provideStore } from '@ngrx/store';
+import { userFeature } from './users/user.feature';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes)
-  ]
+    provideRouter(routes),
+    provideStore(),
+    provideState(userFeature),
+    provideEffects([UserEffects]),
+    provideStoreDevtools({
+      maxAge: 25,
+      logOnly: false,
+    }),
+  ],
 };
